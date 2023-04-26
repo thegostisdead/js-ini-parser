@@ -1,0 +1,43 @@
+{
+  "name": "js-ini-parser",
+  "version": "1.0.0",
+  "description": "A simple ini parser that save comments and spaces",
+  "author": "thegostisdead@gmail.com",
+  "license": "MIT",
+  "keywords": [
+    "ini",
+    "parser",
+    "config",
+    "ini-parser",
+    "ini-parser-node",
+    "ini-parse",
+    "typescript",
+    "simple",
+    "javascript",
+    "client"
+  ],
+  "homepage": "https://github.com/thegostisdead/js-ini-parser#readme",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "/dist"
+  ],
+  "scripts": {
+    "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/**/*.test.ts'",
+    "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
+    "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
+  },
+  "devDependencies": {
+    "@types/chai": "^4.3.4",
+    "@types/mocha": "^10.0.1",
+    "@typescript-eslint/eslint-plugin": "^5.59.1",
+    "@typescript-eslint/parser": "^5.59.1",
+    "chai": "^4.3.7",
+    "eslint": "^8.39.0",
+    "eslint-config-prettier": "^8.8.0",
+    "mocha": "^10.2.0",
+    "prettier": "^2.8.8",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.0.4"
+  }
+}
