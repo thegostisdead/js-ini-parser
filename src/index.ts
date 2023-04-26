@@ -1,4 +1,10 @@
 export {
     parseIni,
-    stringifyIni
+    stringifyIni,
+} from './iniParser'
+
+export type {
+    Block,
+    Section,
+    ParserOptions
 } from './iniParser'

@@ -1,9 +1,9 @@
-type Block =
+export type Block =
   | { type: 'comment'; text: string }
   | { type: 'data'; key: string; value: string }
-type Section = { section: string; blocks: Block[] }
+export type Section = { section: string; blocks: Block[] }
 
-type ParserOptions = {
+export type ParserOptions = {
   allowGlobalSection?: boolean
   globalSectionName?: string
 }

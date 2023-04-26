@@ -36,18 +36,22 @@ Import:
 
 ```js
 // ESM
-import { parse } from "js-ini-parser";
+import { parseIni } from "js-ini-parser";
 
 // CommonJS
-const { parse } = require("js-ini-parser");
+const { parseIni } = require("js-ini-parser");
 ```
 
 ## Usage
 
+### API
+- parseIni(text, options)
+- stringifyIni(object, options)
+
 
 ### Parse text input to object
 ```js
-import { parse } from "js-ini-parser";
+import { parseIni } from "js-ini-parser";
 
 const ini = `
 [server]
@@ -56,12 +60,12 @@ host =
 port = 8080
 `;
 
-const options = parseIni(sampleIni4, {
+const options = {
   allowGlobalSection: true,
   globalSectionName: 'global'
-})
+}
 
-const parsed = parse(ini, options);
+const parsed = parseIni(ini, options);
 
 console.log(parsed);
 ```
@@ -69,16 +73,16 @@ console.log(parsed);
 ### Parse text from file to object
 ```ts
 import * as fs from "node:fs/promises";
-import { parseFile } from "js-ini-parser";
+import { parseIni } from "js-ini-parser";
 
 
-const options = parseIni(sampleIni4, {
+const options = {
   allowGlobalSection: true,
   globalSectionName: 'global'
-})
+}
 
-const file = await fs.readFile("./config.ini", "utf-8");
-const parsed = parse(file, options);
+const fileContent = await fs.readFile("./config.ini", "utf-8");
+const parsed = parseIni(fileContent, options);
 
 
 ```
@@ -102,13 +106,13 @@ const options = {
   globalSectionName: 'global'
 }
 
-const parsed = parse(ini, options);
+const parsed = parseIni(ini, options);
 
 // edit object
 parsed.server.host = 'localhost'
 
 // convert to text
-const text = stringify(parsed, {})
+const text = stringifyIni(parsed, {})
 
 
 ```

@@ -1,6 +1,6 @@
 {
   "name": "js-ini-parser",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A simple ini parser that save comments and spaces",
   "author": "thegostisdead@gmail.com",
   "license": "MIT",
@@ -23,7 +23,10 @@
     "/dist"
   ],
   "scripts": {
-    "test": "mocha --reporter spec --compilers ts:ts-node/register 'src/**/*.test.ts'",
+    "build": "tsc",
+    "prepare" : "npm run build",
+    "prepublishOnly" : "npm test && npm run lint",
+    "test": "mocha -r ts-node/register 'src/**/*.ts'",
     "lint": "eslint --ignore-path .eslintignore --ext .js,.ts .",
     "format": "prettier --ignore-path .gitignore --write \"**/*.+(js|ts|json)\""
   },
