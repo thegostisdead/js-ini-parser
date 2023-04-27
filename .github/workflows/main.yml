@@ -13,14 +13,21 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 7
-      - name: Use Node.js ${{ matrix.node-version }}
+
+      - name: 🔨 Use Node.js ${{ matrix.node-version }}
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node-version }}
           cache: 'pnpm'
-      - name: Install dependencies
+
+      - name: ⬇️ Install dependencies
         run: pnpm install
-      - name: Run test with coverage
+
+      - name: 🛫 Run test with coverage
         run: pnpm run coverage
-      - name: Upload coverage reports to Codecov
+
+      - name: ✅ Upload coverage reports to Codecov
         uses: codecov/codecov-action@v3
+        with:
+          token: ${{ secrets.CODECOV_TOKEN }}
+
