@@ -23,7 +23,10 @@ jobs:
       - name: ⬇️ Install dependencies
         run: pnpm install
 
-      - name: 🛫 Run test with coverage
+      - name: 🛫 Run test
+        run: pnpm run test
+
+      - name: 📝 Run coverage
         run: pnpm run coverage
 
       - name: ✅ Upload coverage reports to Codecov
