@@ -2,11 +2,11 @@
 
 # `ini parser `
 
-A ***simple parser*** for **ini** files. Preserve comments and support global section.
+A ***simple parser*** for **ini** files. Preserve comments and support global section.    
 [![npm version][npm-version-src]][npm-version-href]
 [![npm downloads][npm-downloads-src]][npm-downloads-href]
-[![Github Actions][github-actions-src]][github-actions-href]
-[![Codecov][codecov-src]][codecov-href]
+[![codecov](https://codecov.io/gh/thegostisdead/js-ini-parser/branch/main/graph/badge.svg?token=ZT5QTE59J1)](https://codecov.io/gh/thegostisdead/js-ini-parser)
+![example workflow](https://github.com/thegostisdead/js-ini-parser/actions/workflows/main.yml/badge.svg)
 
 </div>
 
@@ -132,8 +132,3 @@ Published under [MIT License](./LICENSE).
 [npm-downloads-href]: https://npmjs.com/package/js-ini-parser
 [npm-version-src]: https://img.shields.io/npm/v/js-ini-parser?style=flat-square
 [npm-downloads-src]: https://img.shields.io/npm/dm/js-ini-parser?style=flat-square
-
-[github-actions-src]: https://img.shields.io/github/workflow/status/thegostisdead/js-ini-parser/ci/main?style=flat-square
-[github-actions-href]: https://github.com/thegostisdead/js-ini-parser/actions?query=workflow%3Aci
-[codecov-src]: https://img.shields.io/codecov/c/gh/thegostisdead/js-ini-parser/main?style=flat-square
-[codecov-href]: https://codecov.io/gh/thegostisdead/js-ini-parser
