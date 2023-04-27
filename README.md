@@ -92,7 +92,6 @@ const parsed = parseIni(fileContent, options);
 ```ts
 
 import { parse, stringify } from "js-ini-parser";
-import { parseJsDocOfNode } from 'tsutils'
 
 const ini = `
 [server]
