@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es2015",
+    "target": "ESNext",
+    "module": "ESNext",
     "noImplicitAny": true,
-    "declaration": true,
-    "outDir": "./dist"
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "declaration": true
   },
   "include": [
-    "src/**/*"
-  ],
-  "exclude": ["node_modules", "dist", "src/**/*.test.ts"],
+    "src",
+    "test"
+  ]
 }

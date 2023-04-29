@@ -3,10 +3,6 @@ node_modules/
 
 # Coverage directory used by tools like istanbul
 coverage
-*.lcov
-
-# nyc test coverage
-.nyc_output
 
 # Logs
 logs
@@ -26,3 +22,8 @@ lerna-debug.log*
 .env
 
 .idea
+.vscode
+
+.DS_Store
+dist
+types
