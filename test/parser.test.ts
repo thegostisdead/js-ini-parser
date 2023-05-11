@@ -1,6 +1,6 @@
 import { it, describe, expect } from 'vitest'
 
-import { parseIni } from '../src'
+import { parseIni, Section, stringifyIni } from '../src'
 
 const sampleIni = `
 ; last modified 1 April 2001 by John Doe
@@ -142,5 +142,28 @@ describe('ini parser library', () => {
       globalSectionName: 'other',
     })
     expect(obj[0].section).to.equal('other')
+  })
+
+  it('It should generate text from parsed object', () => {
+    const parsedObj = [] as Section[]
+
+    parsedObj.push({
+      section: 'package',
+      blocks: [
+        {
+          type: 'data',
+          key: 'name',
+          value: 'ini-parser',
+        },
+        {
+          type: 'data',
+          key: 'version',
+          value: '1.0.0',
+        },
+      ],
+    } as Section)
+
+    const res = stringifyIni(parsedObj, {})
+    expect(res).to.equal(`[package]\nname=ini-parser\nversion=1.0.0`)
   })
 })

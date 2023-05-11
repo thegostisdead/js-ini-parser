@@ -1,5 +1,7 @@
 import type { Block, ParserOptions, Section } from './types'
 
+// TODO check if comments are added near to the key-value pair
+
 export function parseIni(text: string, options: ParserOptions): Section[] {
   const sections = [] as Section[]
   let currentSection: Section | undefined
@@ -55,7 +57,19 @@ export function stringifyIni(
   options: ParserOptions
 ): string {
   console.log(sections, options)
-  throw new Error('Not implemented') // TODO implement
+
+  const lines = [] as string[]
+  for (const section of sections) {
+    lines.push(`[${section.section}]`)
+    for (const block of section.blocks) {
+      if (block.type === 'comment') {
+        lines.push(`${block.text}`)
+      } else {
+        lines.push(`${block.key}=${block.value}`)
+      }
+    }
+  }
+  return lines.join('\n')
 }
 
 export type { Block, ParserOptions, Section } from './types'
