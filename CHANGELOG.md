@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.3.0
+
+[compare changes](https://undefined/undefined/compare/v1.1.2...v1.3.0)
+
+
+### 🚀 Enhancements
+
+  - Implemented `stringifyIni` support (0ac1a54)
+
+### ❤️  Contributors
+
+- Dorian HARDY ([@thegostisdead](http://github.com/thegostisdead))
+
 ## v1.1.2
 
 [compare changes](https://github.com/thegostisdead/js-ini-parser/compare/v1.1.1...v1.1.2)
