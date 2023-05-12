@@ -9,13 +9,4 @@ const obj = parseIni(sampleIni4, {
 
 console.dir(obj)
 
-for (const section of obj) {
-  console.log(`[${section.section}]`)
-  for (const block of section.blocks) {
-    if (block.type === 'comment') {
-      console.log(`; ${block.text}`)
-    } else {
-      console.log(`${block.key}=${block.value}`)
-    }
-  }
-}
+
