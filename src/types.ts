@@ -1,6 +1,6 @@
 export type Block =
   | { type: 'comment'; text: string }
-  | { type: 'data'; key: string; value: string , comment?: Block }
+  | { type: 'data'; key: string; value: string; comment?: Block }
 
 export type ParserOptions = {
   allowGlobalSection?: boolean

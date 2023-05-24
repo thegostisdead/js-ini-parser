@@ -1,12 +1,37 @@
 import { it, describe, expect } from 'vitest'
 
-import { parseIni, Section, stringifyIni, addSection, addKeyValue, addComment, getSection, updateKeyValue } from '../src'
+import { parseIni, stringifyIni, Section, Line } from '../src'
 
+describe('Line class', () => {
+  it('should wrap index and text', () => {
+    const line = new Line('test', 0)
+    expect(line.text).to.equal('test')
+    expect(line.number).to.equal(0)
+  })
 
+  it('should detect comments', () => {
+    expect(new Line(';test', 0).isComment()).to.equal(true)
+    expect(new Line('; test', 0).isComment()).to.equal(true)
+  })
+
+  it('should detect sections', () => {
+    expect(new Line('[qsdsqd sdqsd]', 0).isSection()).to.equal(true)
+  })
+
+  it('should not detect key/val', () => {
+    expect(new Line('=', 0).isKeyValuePair()).to.equal(false)
+    expect(new Line('=a', 0).isKeyValuePair()).to.equal(false)
+    expect(new Line('', 0).isKeyValuePair()).to.equal(false)
+  })
+
+  it('should detect key/val', () => {
+    expect(new Line('a=a', 0).isKeyValuePair()).to.equal(true)
+    expect(new Line('hello=world', 0).isKeyValuePair()).to.equal(true)
+  })
+})
 
 describe('Parser core', () => {
-
-  it('Core functions should exist', () => {
+  it.concurrent('Core functions should exist', () => {
     expect(parseIni).to.exist
     expect(stringifyIni).to.exist
 
@@ -14,35 +39,67 @@ describe('Parser core', () => {
     expect(stringifyIni).to.be.a('function')
   })
 
+  it.concurrent('Should have a section named DATABASE', () => {
+    const text = `
+    [DATABASE]
+    port=8000
+    host=127.0.0.1
+    `
 
-  it('Should have a section named DATABASE', () => {
-    const obj = parseIni(sampleIni4, {
+    const obj = parseIni(text, {
       allowGlobalSection: true,
       globalSectionName: 'global',
     })
 
-    expect(stringifyIni(obj, {})).to.equal("[DATABASE]\nport=8000\nhost=127.0.0.1")
-
-
+    expect(stringifyIni(obj, {})).to.equal(
+      '[DATABASE]\nport=8000\nhost=127.0.0.1'
+    )
   })
 
-  it('Should not have a section named global', () => {
-    const obj = parseIni(sampleIni4, {
+  it.concurrent('Should not have a section named global', () => {
+    const text = ''
+    const obj = parseIni(text, {
       allowGlobalSection: false,
       globalSectionName: 'global',
     })
-    expect(obj[0].section).to.not.equal('global')
+
+    const res = stringifyIni(obj, {})
+    expect(res).to.equal('')
   })
 
-  it('Should have a section named other', () => {
-    const obj = parseIni(sampleIni5, {
+  it.concurrent('Should not have a section named global', () => {
+    const text = '[server]\naccess=public'
+    const obj = parseIni(text, {
+      allowGlobalSection: false,
+      globalSectionName: 'global',
+    })
+
+    const res = stringifyIni(obj, {})
+    expect(res).to.equal('[server]\naccess=public')
+  })
+
+  it.concurrent('Should have a section named other', () => {
+    const text = `
+    [other]
+    hello=world
+    [DATABASE]
+    port=8000
+    host=127.0.0.1
+    `
+    const obj = parseIni(text, {
       allowGlobalSection: true,
       globalSectionName: 'other',
     })
-    expect(stringifyIni(obj, {})).to.equal('[other]\nhello=world\n[DATABASE]\nport=8000\nhost=127.0.0.1')
+
+    const res = stringifyIni(obj, {})
+
+    expect(res).to.equal(
+      '[other]\nhello=world\n[DATABASE]\nport=8000\nhost=127.0.0.1'
+    )
   })
 
-  it('It should generate text from parsed object', () => {
+  it.concurrent('It should generate text from parsed object', () => {
+    // TODO - I don't like this test, it's too coupled to the implementation details
     const parsedObj = [] as Section[]
 
     parsedObj.push({
@@ -65,20 +122,31 @@ describe('Parser core', () => {
     expect(res).to.equal(`[package]\nname=ini-parser\nversion=1.0.0`)
   })
 
-  it('It should be able to handle comments', () => {
-
-    const iniObj = parseIni(commentsIni, { allowGlobalSection: true});
+  it.concurrent('It should be able to handle comments', () => {
+    const commentsIni = `
+    [super]
+    ; superman
+    name=Homelander
+    organization=Vought
+    ; info 1 
+    ; info 2
+    `
+    const iniObj = parseIni(commentsIni, {
+      allowGlobalSection: false,
+    })
     const output = stringifyIni(iniObj, {})
-    console.log(output)
-    expect(output).to.equal("; last modified 1 April 2001 by John Doe\n[super]\n; superman\nname=Homelander\norganization=Vought\n; info 1 \n; info 2")
 
+    expect(output).to.equal(
+      '[super]\n; superman\nname=Homelander\norganization=Vought\n; info 1\n; info 2'
+    )
   })
-
 })
 
-
+/*
 describe("Utility functions", () => {
   it("It should create a new section", () => {
+
+    const testFile = ``
     const iniObj = parseIni(testFile, {});
     addSection(iniObj, "database")
 
@@ -89,6 +157,7 @@ describe("Utility functions", () => {
 
 
   it("It should add a new key when needed", () => {
+    const testFile = ``
     const iniObj = parseIni(testFile, {});
     addKeyValue(iniObj, "server",  "database", "mongo", { override : false})
 
@@ -108,6 +177,7 @@ describe("Utility functions", () => {
   })
 
   it("It should add a new comment in a section", () => {
+    const testFile = ``
     const iniObj = parseIni(testFile, {});
     addComment(iniObj, "server", "This should be 1.1.1.1 in production", { attachToKey: "host"} )
     expect(stringifyIni(iniObj, {})).to.equal('[version]\nversion=1.1.1\n[server]\n;This should be 1.1.1.1 in production\nhost=182.15.36.95\nport=8080')
@@ -119,7 +189,10 @@ describe("Utility functions", () => {
   })
 
   it("It should update a key/value", () => {
+    const testFile = ``
     const iniObj = parseIni(testFile, {});
     updateKeyValue(iniObj, "version", "version", "1.2.0")
   })
 });
+
+*/

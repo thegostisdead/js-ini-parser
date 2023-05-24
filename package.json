@@ -8,7 +8,7 @@
   "scripts": {
     "build": "unbuild",
     "dev": "vitest",
-    "test:ui": "set BROWSER=chrome & vitest --ui",
+    "test:ui": "set BROWSER=chrome & vitest --ui --api 9527",
     "lint": "eslint --ext .ts src && prettier -c src test",
     "prepack": "pnpm build",
     "release": "pnpm test && changelogen --release && git push --follow-tags && pnpm publish",

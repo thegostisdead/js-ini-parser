@@ -8,5 +8,3 @@ const obj = parseIni(sampleIni4, {
 })
 
 console.dir(obj)
-
-
