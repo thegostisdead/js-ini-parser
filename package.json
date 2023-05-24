@@ -1,6 +1,6 @@
 {
   "name": "js-ini-parser",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "description": "A simple ini parser that save comments and spaces",
   "author": "thegostisdead@gmail.com",
   "homepage": "https://github.com/thegostisdead/js-ini-parser#readme",

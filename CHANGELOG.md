@@ -1,5 +1,22 @@
 # Changelog
 
+## v1.4.0
+
+[compare changes](https://undefined/undefined/compare/v1.3.0...v1.4.0)
+
+
+### 🚀 Enhancements
+
+  - Add comment support (ad82460)
+
+### 🩹 Fixes
+
+  - Handle comment and attach them to key (b2c607f)
+
+### ❤️  Contributors
+
+- Dorian HARDY ([@thegostisdead](http://github.com/thegostisdead))
+
 ## v1.3.0
 
 [compare changes](https://undefined/undefined/compare/v1.1.2...v1.3.0)
