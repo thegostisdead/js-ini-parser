@@ -140,6 +140,38 @@ describe('Parser core', () => {
       '[super]\n; superman\nname=Homelander\norganization=Vought\n; info 1\n; info 2'
     )
   })
+
+  it.concurrent('It should be able to support empty value', () => {
+    const testFile = `
+    [server]
+    host=
+    port=8080
+    `
+
+    const iniObj = parseIni(testFile, {
+      allowGlobalSection: false,
+      allowEmptyValue: true,
+    })
+    const output = stringifyIni(iniObj, {})
+
+    expect(output).to.equal('[server]\nhost=\nport=8080')
+  })
+
+  it.concurrent('It should ignore when empty value is disabled', () => {
+    const testFile = `
+    [server]
+    host=
+    port=8080
+    `
+
+    const iniObj = parseIni(testFile, {
+      allowGlobalSection: false,
+      allowEmptyValue: false,
+    })
+    const output = stringifyIni(iniObj, {})
+
+    expect(output).to.equal('[server]\nport=8080')
+  })
 })
 
 /*

@@ -5,6 +5,7 @@ export type Block =
 export type ParserOptions = {
   allowGlobalSection?: boolean
   globalSectionName?: string
+  allowEmptyValue?: boolean
 }
 
 export type Section = {

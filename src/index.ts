@@ -23,6 +23,20 @@ export class Line {
     return this.text.startsWith('[') && this.text.endsWith(']')
   }
 
+  isEmptyKeyValuePair(): boolean {
+    if (this.text.length <= 1) {
+      return false
+    }
+
+    if (this.isComment() || this.isSection()) {
+      return false
+    }
+
+    const [k, v] = this.text.trim().split('=')
+
+    return v === undefined || v === ''
+  }
+
   isKeyValuePair(): boolean {
     const hasEqualSign = this.text.indexOf('=') !== -1
     const endsWithEqualSign = this.text.endsWith('=')
@@ -37,6 +51,16 @@ export class Line {
   }
 }
 
+/**
+ * Parse an ini file and return an object
+ * @param text The ini file content to parse as a string (required)
+ * @param {Object} options - The parser options (optional)
+ * @param {Boolean} options.allowGlobalSection - allow a section named global (default: false)
+ * @param {String} options.globalSectionName - the name of the global section (default: '')
+ * @param {Boolean} options.allowEmptyValue - allow empty values (default: false) When false, empty values will be ignored
+ * @returns The parsed object
+ *
+ */
 export function parseIni(text: string, options: ParserOptions): IniObject {
   const sections = [] as Section[]
   let currentSection: Section | undefined
@@ -128,6 +152,24 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
         }
 
         currentSection.blocks.push(currentBlock)
+      } else if (trimmedLine.isEmptyKeyValuePair()) {
+        if (options.allowEmptyValue) {
+          console.log(
+            'empty key value pair at line ' + index + ' : ' + trimmedLine.text
+          )
+          const separatorIndex = trimmedLine.text.indexOf('=')
+
+          const key = trimmedLine.text.slice(0, separatorIndex).trim()
+          const value = ''
+
+          currentBlock = { type: 'data', key, value }
+          currentSection.blocks.push(currentBlock)
+        } else {
+          console.error(
+            `Empty value at ${index}. This line should have a value.`
+          )
+          console.error(`Line content: ${trimmedLine.text}`)
+        }
       } else {
         console.error(
           `Invalid line ${index}. This line should be a key-value pair.`
@@ -145,6 +187,11 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
   return sections
 }
 
+/**
+ * Stringify a parsed object to an ini string
+ * @param sections {IniObject} - the parsed object to stringify to ini
+ * @param options {ParserOptions} - the options to use for the parser (default: {})
+ */
 export function stringifyIni(
   sections: IniObject,
   options: ParserOptions
