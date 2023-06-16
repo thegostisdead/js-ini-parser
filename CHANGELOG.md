@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.5.0
+
+[compare changes](https://undefined/undefined/compare/v1.4.0...v1.5.0)
+
+
+### 🚀 Enhancements
+
+  - Solve empty key value support #2 (#2)
+
+### ❤️  Contributors
+
+- Dorian HARDY ([@thegostisdead](http://github.com/thegostisdead))
+
 ## v1.4.0
 
 [compare changes](https://undefined/undefined/compare/v1.3.0...v1.4.0)
