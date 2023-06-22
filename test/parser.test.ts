@@ -167,6 +167,7 @@ describe('Parser core', () => {
     const iniObj = parseIni(testFile, {
       allowGlobalSection: false,
       allowEmptyValue: false,
+      debug: false,
     })
     const output = stringifyIni(iniObj, {})
 

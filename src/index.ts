@@ -66,11 +66,20 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
   let currentSection: Section | undefined
   let currentBlock: Block | undefined
   let globalSection: Section | undefined
+  let old_console_log = console.log;
+
 
   if (options.allowGlobalSection) {
     globalSection = {
       section: options.globalSectionName || DEFAULT_SECTION_NAME,
       blocks: [],
+    }
+  }
+
+  old_console_log = console.log;
+  console.log = function(args) {
+    if (options.debug) {
+      old_console_log.apply(this, ...args);
     }
   }
 
