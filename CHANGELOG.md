@@ -1,5 +1,18 @@
 # Changelog
 
+## v1.6.0
+
+[compare changes](https://undefined/undefined/compare/v1.5.0...v1.6.0)
+
+
+### 🚀 Enhancements
+
+  - Debug flag to turn off console.log (b69c704)
+
+### ❤️  Contributors
+
+- Dorian HARDY ([@thegostisdead](http://github.com/thegostisdead))
+
 ## v1.5.0
 
 [compare changes](https://undefined/undefined/compare/v1.4.0...v1.5.0)
