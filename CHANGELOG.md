@@ -1,5 +1,26 @@
 # Changelog
 
+## v1.6.1
+
+[compare changes](https://undefined/undefined/compare/v1.6.0...v1.6.1)
+
+
+### 🩹 Fixes
+
+  - Fixed #3  and prevent debug to cause issue with console.log (#3)
+
+### 📖 Documentation
+
+  - Added stringify exemple in demo.ts (7966b1e)
+
+### ✅ Tests
+
+  - Removed unused test files (3b2defe)
+
+### ❤️  Contributors
+
+- Dorian Hardy ([@thegostisdead](http://github.com/thegostisdead))
+
 ## v1.6.0
 
 [compare changes](https://undefined/undefined/compare/v1.5.0...v1.6.0)
