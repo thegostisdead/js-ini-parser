@@ -1,6 +1,9 @@
-import { parseIni } from './index'
+import { parseIni, stringifyIni } from './index'
 
-const sampleIni4 = ``
+const sampleIni4 = `
+[hello]
+world=1
+`
 
 const obj = parseIni(sampleIni4, {
   allowGlobalSection: true,
@@ -8,3 +11,6 @@ const obj = parseIni(sampleIni4, {
 })
 
 console.dir(obj)
+
+const res = stringifyIni(obj, {})
+console.log(res)
