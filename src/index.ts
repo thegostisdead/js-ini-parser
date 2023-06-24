@@ -78,6 +78,7 @@ export class Line {
  * @param {Boolean} options.allowGlobalSection - allow a section named global (default: false)
  * @param {String} options.globalSectionName - the name of the global section (default: '')
  * @param {Boolean} options.allowEmptyValue - allow empty values (default: false) When false, empty values will be ignored
+ * @param {Boolean} options.debug - enable debug mode (default: false)
  * @returns The parsed object
  *
  */

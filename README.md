@@ -36,18 +36,23 @@ Import:
 
 ```js
 // ESM
-import { parseIni } from "js-ini-parser";
+import { parseIni, stringifyIni } from "js-ini-parser";
 
 // CommonJS
-const { parseIni } = require("js-ini-parser");
+const { parseIni, stringifyIni } = require("js-ini-parser");
 ```
 
 ## Usage
 
 ### API
-- parseIni(text, options)
-- stringifyIni(object, options)
+- parseIni(text, ParserOptions)
+- stringifyIni(object, {})
 
+### ParserOptions
+- `allowGlobalSection`: `boolean` - Allow global section (default: false)
+- `globalSectionName`: `string` - Name of the global section (default: global)
+- `allowEmptyValue`: `boolean` - Allow empty value (default: false) 
+- `debug`: `boolean` - Enable debug mode (default: false) 
 
 ### Parse text input to object
 ```js
@@ -89,6 +94,11 @@ const parsed = parseIni(fileContent, options);
 
 ### Edit object and convert to text
 
+> ⚠️️ Not available yet but will be soon !   
+Currently, you can edit the object manually and stringify it back to text using stringifyIni
+> - In the future, you will be able to edit the object using the API (addComment, updateKeyValue, etc...)   
+> - Or by accessing to data like this: parsed.server.host = 'localhost'
+
 ```ts
 
 import { parse, stringify } from "js-ini-parser";
@@ -107,13 +117,8 @@ const options = {
 
 const parsed = parseIni(ini, options);
 
-// edit object
-parsed.server.host = 'localhost'
-
 // convert to text
 const text = stringifyIni(parsed, {})
-
-
 ```
 
 
