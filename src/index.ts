@@ -32,22 +32,42 @@ export class Line {
       return false
     }
 
-    const [k, v] = this.text.trim().split('=')
-
+    const [, v] = this.text.trim().split('=')
     return v === undefined || v === ''
   }
 
   isKeyValuePair(): boolean {
+    // TODO : improve this
+    if (this.isEmptyKeyValuePair()) {
+      return false
+    }
+
     const hasEqualSign = this.text.indexOf('=') !== -1
-    const endsWithEqualSign = this.text.endsWith('=')
+
+    if (!hasEqualSign) {
+      return false
+    }
+
     const startsWithEqualSign = this.text.startsWith('=')
-    return (
-      hasEqualSign &&
-      !endsWithEqualSign &&
-      !startsWithEqualSign &&
-      !this.isComment() &&
-      !this.isSection()
-    )
+
+    if (startsWithEqualSign) {
+      return false
+    }
+
+    if (this.text.trim().split('=').length === 2) {
+      return (
+        hasEqualSign &&
+        !startsWithEqualSign &&
+        !this.isComment() &&
+        !this.isSection()
+      )
+    }
+
+    if (this.isComment() && this.isSection()) {
+      return false
+    }
+
+    return !startsWithEqualSign
   }
 }
 
@@ -66,20 +86,16 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
   let currentSection: Section | undefined
   let currentBlock: Block | undefined
   let globalSection: Section | undefined
-  let old_console_log = console.log;
+  let debug = console.debug
 
+  if (options.debug !== true) {
+    debug = () => {}
+  }
 
   if (options.allowGlobalSection) {
     globalSection = {
       section: options.globalSectionName || DEFAULT_SECTION_NAME,
       blocks: [],
-    }
-  }
-
-  old_console_log = console.log;
-  console.log = function(args) {
-    if (options.debug) {
-      old_console_log.apply(this, ...args);
     }
   }
 
@@ -105,8 +121,8 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
 
         if (trimmedNextLine.isKeyValuePair()) {
           // do nothing because the comment is linked to a key-value pair and will be handled later in the loop
-          console.log('comment linked to a key-value pair')
-          console.log(`l:${index}  ${trimmedLine.text}`)
+          debug('comment linked to a key-value pair')
+          debug(`l:${index}  ${trimmedLine.text}`)
         } else if (currentSection) {
           currentSection.blocks.push({
             type: 'comment',
@@ -119,7 +135,7 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
           console.error(`l:${index}  ${trimmedLine.text}`)
         }
       } else {
-        console.log('last line of the file')
+        debug('last line of the file')
         if (currentSection) {
           currentSection.blocks.push({
             type: 'comment',
@@ -135,7 +151,7 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
     } else if (currentSection) {
       // search for key-value pairs
       const isKeyValuePair = trimmedLine.isKeyValuePair()
-
+      debug('isKeyValuePair', isKeyValuePair)
       if (isKeyValuePair) {
         const separatorIndex = trimmedLine.text.indexOf('=')
 
@@ -151,7 +167,7 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
           const previousLine = lines[index - 1]
           const trimmedPreviousLine = new Line(previousLine.trim(), index - 1)
 
-          // a comment is found in the previous line so we link it to the current block
+          // a comment is found in the previous line, so we link it to the current block
           if (trimmedPreviousLine.isComment()) {
             currentBlock.comment = {
               type: 'comment',
@@ -163,15 +179,16 @@ export function parseIni(text: string, options: ParserOptions): IniObject {
         currentSection.blocks.push(currentBlock)
       } else if (trimmedLine.isEmptyKeyValuePair()) {
         if (options.allowEmptyValue) {
-          console.log(
+          debug(
             'empty key value pair at line ' + index + ' : ' + trimmedLine.text
           )
           const separatorIndex = trimmedLine.text.indexOf('=')
 
-          const key = trimmedLine.text.slice(0, separatorIndex).trim()
-          const value = ''
-
-          currentBlock = { type: 'data', key, value }
+          currentBlock = {
+            type: 'data',
+            key: trimmedLine.text.slice(0, separatorIndex).trim(),
+            value: '',
+          }
           currentSection.blocks.push(currentBlock)
         } else {
           console.error(
@@ -292,7 +309,7 @@ export function addComment(
       type: 'comment',
       text: comment,
     })
-    console.log(targetSection)
+    // console.log(targetSection)
     return targetSection.blocks[commentPosition]
   }
 
